@@ -157,6 +157,6 @@ public abstract class VersionCheckTask extends DefaultTask {
     final String jksPath = new File(System.getProperty("user.dir"), "github.jks").getAbsolutePath();
     final String outPath = new File(System.getProperty("user.dir"), "patchapk/").getAbsolutePath();
 
-    new LSPatch(new JavaLogger(), mergedPath, "--force", "-m", modPath, "-o", outPath, "-k", jksPath, key, "store", key).doCommandLine();
+    new LSPatch(new JavaLogger(), mergedPath, "--force", "-m", modPath, "-o", outPath, "-k", jksPath, key, "discordex", key).doCommandLine();
   }
 }
