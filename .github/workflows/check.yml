@@ -44,8 +44,8 @@ jobs:
 
       - name: Commit Version
         run: |
-          git config --global user.name 'Josh Roy'
-          git config --global user.email '10731363+JRoy@users.noreply.github.com'
+          git config --global user.name 'thororen1234'
+          git config --global user.email '78185467+thororen1234@users.noreply.github.com'
           git add version.txt
           git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
           git push
