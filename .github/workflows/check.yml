@@ -44,25 +44,25 @@ jobs:
         with:
           path: ./version.txt
 
-      - name: Commit Version
-        run: |
-          git config --global user.name 'thororen'
-          git config --global user.email '78185467+thororen1234@users.noreply.github.com'
-          git add version.txt
-          git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
-          git push
+      #- name: Commit Version
+      #  run: |
+      #    git config --global user.name 'thororen'
+      #    git config --global user.email '78185467+thororen1234@users.noreply.github.com'
+      #    git add version.txt
+      #    git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
+      #    git push
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.version.outputs.content }}
-          files: patchapk/merged-360-lspatched.apk
-          body: New Version Detected - ${{ steps.version.outputs.content }}
+      #- name: Create Release
+      #  uses: softprops/action-gh-release@v1
+      #  with:
+      #    tag_name: ${{ steps.version.outputs.content }}
+      #    files: patchapk/merged-360-lspatched.apk
+      #    body: New Version Detected - ${{ steps.version.outputs.content }}
 
       - name: Upload release to releases repo
         run: |
           mv patchapk/merged-360-lspatched.apk patchapk/${{ steps.version.outputs.content }}.apk
-          git config --global user.name "thororen1234"
+          git config --global user.name "thororen"
           git config --global user.email "78185467+thororen1234@users.noreply.githun.com"
           git clone https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git
           cd patchapk
