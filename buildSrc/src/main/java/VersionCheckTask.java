@@ -37,6 +37,8 @@ public abstract class VersionCheckTask extends DefaultTask {
 
   @TaskAction
   public void checkVersion() throws IOException {
+    try (final CloseableHttpClient client = HttpClients.createDefault()) {
+
       final HttpGet apkGet = new HttpGet("https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=5814783&key=718fb8484a4dd462fe2f05990e90379cc265b769");
       apkGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
       apkGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
@@ -67,6 +69,7 @@ public abstract class VersionCheckTask extends DefaultTask {
           fos.close();
         }
         zipEntry = zis.getNextEntry();
+      }
 
       zis.closeEntry();
       zis.close();
