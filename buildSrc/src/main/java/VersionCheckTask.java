@@ -67,7 +67,6 @@ public abstract class VersionCheckTask extends DefaultTask {
           fos.close();
         }
         zipEntry = zis.getNextEntry();
-      }
 
       zis.closeEntry();
       zis.close();
