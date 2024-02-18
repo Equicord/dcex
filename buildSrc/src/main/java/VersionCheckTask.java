@@ -37,6 +37,38 @@ public abstract class VersionCheckTask extends DefaultTask {
 
   @TaskAction
   public void checkVersion() throws IOException {
+    long previousVersion = 0;
+
+    final File versionFile = new File(System.getProperty("user.dir"), "version.txt");
+    if (versionFile.exists()) {
+      previousVersion = Long.parseLong(FileUtils.readFileToString(versionFile, StandardCharsets.UTF_8).trim());
+    }
+
+    try (final CloseableHttpClient client = HttpClients.createDefault()) {
+
+      final HttpGet idGet = new HttpGet("https://www.apkmirror.com" + newUrl);
+      idGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
+      idGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
+      final CloseableHttpResponse downloadResponse = client.execute(idGet);
+      final BufferedReader br = new BufferedReader(new InputStreamReader(downloadResponse.getEntity().getContent()));
+
+      String id = null;
+      String key = null;
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.contains("name=\"id\" value=\"")) {
+          id = line.split("name=\"id\" value=\"")[1].split("\"")[0];
+          key = br.readLine().split("name=\"key\" value=\"")[1].split("\"")[0];
+          break;
+        }
+      }
+      br.close();
+      downloadResponse.close();
+
+      if (id == null) {
+        throw new IllegalStateException();
+      }
+
       final HttpGet apkGet = new HttpGet("https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=5814783&key=718fb8484a4dd462fe2f05990e90379cc265b769");
       apkGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
       apkGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
@@ -67,6 +99,7 @@ public abstract class VersionCheckTask extends DefaultTask {
           fos.close();
         }
         zipEntry = zis.getNextEntry();
+      }
 
       zis.closeEntry();
       zis.close();
