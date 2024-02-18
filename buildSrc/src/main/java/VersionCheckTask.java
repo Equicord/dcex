@@ -58,7 +58,7 @@ public abstract class VersionCheckTask extends DefaultTask {
           .getAsJsonObject().get("apks").getAsJsonArray().get(0).getAsJsonObject();
 
       final long versionCode = Long.parseLong(apk.get("version_code").getAsString());
-      if (previousVersion >= versionCode) {
+      if (218205 >= versionCode) {
         throw new RuntimeException("No new version available.");
       }
 
