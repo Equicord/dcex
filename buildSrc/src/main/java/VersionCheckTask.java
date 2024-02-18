@@ -37,78 +37,7 @@ public abstract class VersionCheckTask extends DefaultTask {
 
   @TaskAction
   public void checkVersion() throws IOException {
-    long previousVersion = 0;
-
-    final File versionFile = new File(System.getProperty("user.dir"), "version.txt");
-    if (versionFile.exists()) {
-      previousVersion = Long.parseLong(FileUtils.readFileToString(versionFile, StandardCharsets.UTF_8).trim());
-    }
-
-    try (final CloseableHttpClient client = HttpClients.createDefault()) {
-      final HttpPost post = new HttpPost("https://www.apkmirror.com/wp-json/apkm/v1/app_exists/");
-      post.addHeader("User-Agent", "APKUpdater-v2.0.5");
-      post.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
-      post.addHeader("Content-type", "application/json");
-      post.setEntity(new StringEntity("{\"pnames\": [\"com.discord\"]}", ContentType.APPLICATION_JSON));
-      final CloseableHttpResponse existsResponse = client.execute(post);
-      final String content = CharStreams.toString(new InputStreamReader(existsResponse.getEntity().getContent()));
-      existsResponse.close();
-
-      final JsonObject apk = JsonParser.parseString(content).getAsJsonObject().get("data").getAsJsonArray().get(0)
-          .getAsJsonObject().get("apks").getAsJsonArray().get(0).getAsJsonObject();
-
-      final long versionCode = Long.parseLong(apk.get("version_code").getAsString());
-      if (218205 >= versionCode) {
-        throw new RuntimeException("No new version available.");
-      }
-
-      FileUtils.writeStringToFile(versionFile, String.valueOf(versionCode), StandardCharsets.UTF_8);
-
-      final HttpGet redirectGet = new HttpGet("https://www.apkmirror.com" + apk.get("link").getAsString() + "download/");
-      redirectGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
-      redirectGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
-      final CloseableHttpResponse redirR = client.execute(redirectGet);
-      final BufferedReader redirBr = new BufferedReader(new InputStreamReader(redirR.getEntity().getContent()));
-
-      String newUrl = null;
-      String redirLine;
-      while ((redirLine = redirBr.readLine()) != null) {
-        if (redirLine.contains("downloadButton ")) {
-          newUrl = redirLine.split("href=\"")[1].split("\"")[0];
-          break;
-        }
-      }
-      redirBr.close();
-      redirR.close();
-
-      if (newUrl == null) {
-        throw new IllegalStateException();
-      }
-
-      final HttpGet idGet = new HttpGet("https://www.apkmirror.com" + newUrl);
-      idGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
-      idGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
-      final CloseableHttpResponse downloadResponse = client.execute(idGet);
-      final BufferedReader br = new BufferedReader(new InputStreamReader(downloadResponse.getEntity().getContent()));
-
-      String id = null;
-      String key = null;
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.contains("name=\"id\" value=\"")) {
-          id = line.split("name=\"id\" value=\"")[1].split("\"")[0];
-          key = br.readLine().split("name=\"key\" value=\"")[1].split("\"")[0];
-          break;
-        }
-      }
-      br.close();
-      downloadResponse.close();
-
-      if (id == null) {
-        throw new IllegalStateException();
-      }
-
-      final HttpGet apkGet = new HttpGet("https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=" + id + "&key=" + key);
+      final HttpGet apkGet = new HttpGet("https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=5814783&key=718fb8484a4dd462fe2f05990e90379cc265b769");
       apkGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
       apkGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
       final CloseableHttpResponse apkResponse = client.execute(apkGet);
