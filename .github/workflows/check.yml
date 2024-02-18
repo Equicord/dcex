@@ -61,11 +61,12 @@ jobs:
 
       - name: Upload release to releases repo
         run: |
-          mv patchapk/merged-360-lspatched.apk patchapk/${{ steps.version.outputs.content }}.apk
           git config --global user.name "thororen"
           git config --global user.email "78185467+thororen1234@users.noreply.githun.com"
-          git clone https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git
-          cd patchapk
+          git clone https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git upload
+          cd upload
+          rm -rf *
+          cp -r ../patchapk/* .
           git add -A
           git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
           git push --force https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git
