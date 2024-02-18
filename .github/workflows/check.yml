@@ -59,7 +59,7 @@ jobs:
           files: patchapk/merged-360-lspatched.apk
           body: New Version Detected - ${{ steps.version.outputs.content }}
 
-      - name: Upload Release to builds repo
+      - name: Upload release to releases repo
         run: |
           mv patchapk/merged-360-lspatched.apk patchapk/${{ steps.version.outputs.content }}.apk
           git config --global user.name "thororen1234"
