@@ -66,7 +66,7 @@ jobs:
           git clone https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git upload
           cd upload
           rm -rf *
-          cp -r ../patchapk/*.apk ./latest.apk
+          cp -r ../patchapk/* .
           git add -A
           git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
           git push --force https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git
