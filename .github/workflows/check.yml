@@ -58,17 +58,3 @@ jobs:
           tag_name: ${{ steps.version.outputs.content }}
           files: patchapk/merged-360-lspatched.apk
           body: New Version Detected - ${{ steps.version.outputs.content }}
-
-      - name: Upload release to releases repo
-        run: |
-          git config --global user.name 'thororen1234'
-          git config --global user.email '78185467+thororen1234@users.noreply.github.com'
-          git clone https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git upload
-          cd upload
-          rm -rf *
-          cp -r ../patchapk/* .
-          git add -A
-          git commit -m "New Version Detected - ${{ steps.version.outputs.content }}"
-          git push --force https://thororen1234:$API_TOKEN@github.com/thororen1234/dcexreleases.git
-        env:
-          API_TOKEN: ${{ secrets.GH_TOKEN }}
