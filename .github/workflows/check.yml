@@ -13,6 +13,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+        
+      - name: Install dependencies
+        run: |
+          cd js
+          npm install
+          node index.js
+
       - name: Load Gradle Cache
         uses: actions/cache@v3
         with:
