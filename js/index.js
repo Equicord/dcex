@@ -83,4 +83,12 @@ async function downloadAPK(previousVersion, versionFilePath) {
     console.log("APK downloaded successfully.");
 }
 
-downloadAPK(previousVersion, versionFilePath).catch(console.error);
+downloadAPK(previousVersion, versionFilePath).catch((err) => {
+    if (err.message === "No new version available.") {
+        console.log(err.message);
+        process.exit(0);
+    } else {
+        console.error(err);
+        process.exit(1);
+    }
+});

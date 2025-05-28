@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '22'
         
-      - name: Install dependencies
+      - name: Check/Download New Version
         run: |
           cd js
           npm install
