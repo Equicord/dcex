@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public abstract class VersionCheckTask extends DefaultTask {
+public abstract class PatchVersionTask extends DefaultTask {
   private String key;
 
   @Option(option = "key", description = "Keystore Key")
@@ -36,7 +36,7 @@ public abstract class VersionCheckTask extends DefaultTask {
   }
 
   @TaskAction
-  public void checkVersion() throws IOException {
+  public void patchVersion() throws IOException {
     long previousVersion = 0;
 
     final File versionFile = new File(System.getProperty("user.dir"), "version.txt");
