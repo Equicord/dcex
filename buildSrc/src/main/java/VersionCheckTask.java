@@ -94,13 +94,23 @@ public abstract class VersionCheckTask extends DefaultTask {
       String id = null;
       String key = null;
       String line;
+      
       while ((line = br.readLine()) != null) {
-        if (line.contains("name=\"id\" value=\"")) {
-          id = line.split("name=\"id\" value=\"")[1].split("\"")[0];
-          key = br.readLine().split("name=\"key\" value=\"")[1].split("\"")[0];
+        if (line.contains("id=\"download-link\"") && line.contains("href=\"/wp-content/themes/APKMirror/download.php?")) {
+          String href = line.split("href=\"")[1].split("\"")[0];
+          String[] params = href.split("\\?")[1].split("&");
+
+          for (String param : params) {
+              if (param.startsWith("id=")) {
+                id = param.substring(3);
+              } else if (param.startsWith("key=")) {
+                key = param.substring(4);
+              }
+          }
           break;
         }
       }
+
       br.close();
       downloadResponse.close();
 
