@@ -20,8 +20,9 @@ hs_err_pid*
 *.apktool_temp
 output/
 *.jar
-!lib/apkedit.jar
-!lib/lspatch.jar
+!utils/apkedit.jar
+!utils/lspatch.jar
+splits*
 
 # Android
 app/build/

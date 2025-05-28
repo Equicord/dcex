@@ -5,6 +5,7 @@ import { execSync } from "child_process";
 
 export default async function patchVersion(key) {
     const baseDir = process.cwd();
+    const utilsDir = path.join(baseDir, "utils/")
     const versionFile = path.join(baseDir, 'version.txt');
 
     let previousVersion = 0;
@@ -37,13 +38,13 @@ export default async function patchVersion(key) {
     });
 
     const mergedPath = path.join(baseDir, 'merged.apk');
-    const modPath = path.join(baseDir, 'app/build/outputs/apk/debug/app-debug.apk');
-    const jksPath = path.join(baseDir, 'github.jks');
+    const modPath = path.join(utilsDir, 'app-debug.apk');
+    const jksPath = path.join(utilsDir, 'github.jks');
     const outPath = path.join(baseDir, 'patchapk');
 
     try {
-        execSync(`java -jar lib/apkedit.jar m -i "${splitApkDir}" -o "${mergedPath}"`, { stdio: 'inherit' });
-        execSync(`java -jar lib/lspatch.jar "${mergedPath}" --force -m "${modPath}" -o "${outPath}" -k "${jksPath}" "${key}" discordex "${key}"`, { stdio: 'inherit' });
+        execSync(`java -jar utils/apkedit.jar m -i "${splitApkDir}" -o "${mergedPath}"`, { stdio: 'inherit' });
+        execSync(`java -jar utils/lspatch.jar "${mergedPath}" --force -m "${modPath}" -o "${outPath}" -k "${jksPath}" "${key}" discordex "${key}"`, { stdio: 'inherit' });
         console.log('Patch completed successfully.');
     } catch (err) {
         console.error('Error during merge or patch:', err.message);
