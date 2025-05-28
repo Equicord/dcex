@@ -13,6 +13,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,32 +26,10 @@ jobs:
         
       - name: Check/Download New Version
         run: |
-          cd js
           npm install
           node index.js
-
-      - name: Load Gradle Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Patch new APK
         env:
-          STORE_PASS: ${{ secrets.STORE_PASS }}
-        run: |
-          chmod +x gradlew
-          ./gradlew patchVersion --key $STORE_PASS
+          key: ${{ secrets.STORE_PASS }}
 
       - name: Read Version
         id: version

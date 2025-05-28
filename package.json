@@ -1,0 +1,13 @@
+{
+  "name": "dcex",
+  "version": "1.0.0",
+  "author": {
+    "name": "thororen",
+    "url": "https://github.com/thororen1234"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "jsdom": "^26.1.0",
+    "unzipper": "^0.12.3"
+  }
+}

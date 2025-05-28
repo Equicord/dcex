@@ -1,27 +1,8 @@
-# IntelliJ
-.idea/*
-*.iml
-
 # JS
-js/node_modules*
-
-# Gradle
-.gradle
-build/
-*\.log
-logging\.properties
-
-# Compiled class file
-*.class
+node_modules*
 
 # Log file
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.war
