@@ -94,10 +94,11 @@ public abstract class VersionCheckTask extends DefaultTask {
       String id = null;
       String key = null;
       String line;
-      
+      String href = null;
+
       while ((line = br.readLine()) != null) {
         if (line.contains("id=\"download-link\"") && line.contains("href=\"/wp-content/themes/APKMirror/download.php?")) {
-          String href = line.split("href=\"")[1].split("\"")[0];
+          href = line.split("href=\"")[1].split("\"")[0];
           String[] params = href.split("\\?")[1].split("&");
 
           for (String param : params) {
@@ -118,7 +119,7 @@ public abstract class VersionCheckTask extends DefaultTask {
         throw new IllegalStateException();
       }
 
-      final HttpGet apkGet = new HttpGet("https://www.apkmirror.com/wp-content/themes/APKMirror/download.php?id=" + id + "&key=" + key);
+      final HttpGet apkGet = new HttpGet("https://www.apkmirror.com" + href);
       apkGet.addHeader("User-Agent", "APKUpdater-v2.0.5");
       apkGet.addHeader("Authorization", "Basic YXBpLWFwa3VwZGF0ZXI6cm01cmNmcnVVakt5MDRzTXB5TVBKWFc4");
       final CloseableHttpResponse apkResponse = client.execute(apkGet);
