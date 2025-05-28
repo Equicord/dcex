@@ -24,12 +24,12 @@ jobs:
         with:
           node-version: '22'
         
-      - name: Check/Download New Version
+      - name: Check/Download/Patch New Version
         run: |
           npm install
           node index.js
         env:
-          key: ${{ secrets.STORE_PASS }}
+          key: ${{ secrets.key }}
 
       - name: Read Version
         id: version
