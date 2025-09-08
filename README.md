@@ -1,4 +1,7 @@
 # discord-experiments-android
+
+### Currently a dead project
+
 An automated patcher for Discord's Android app to enable certain staff-only features (such as experiments).
 
 ---

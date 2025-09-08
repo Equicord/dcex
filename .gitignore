@@ -1,6 +1,5 @@
 node_modules*
 hs_err_pid*
-splits*
 output*
 
 *.log
